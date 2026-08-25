@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WALKWATT — Every Step Creates Energy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-black: #08080a;
+      --card-bg: rgba(20, 22, 28, 0.6);
+      --neon-green: #39ff14;
+      --neon-glow: rgba(57, 255, 20, 0.35);
+      --text-white: #f5f5f7;
+      --text-gray: #a1a1a6;
+      --border-glass: rgba(255, 255, 255, 0.08);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: var(--bg-black);
+      color: var(--text-white);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+    }
+    /* Headings */
+    h1, h2, h3, .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+    }
+    /* Glassmorphism Classes */
+    .glass {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+    }
+    .glass-glow {
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(57, 255, 20, 0.05);
+      transition: all 0.3s ease;
+    }
+    .glass-glow:hover {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 25px var(--neon-glow);
+    }
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(8, 8, 10, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-glass);
+    }
+    .logo-img {
+      height: 45px;
+      width: auto;
+      object-fit: contain;
+    }
+    .nav-links a {
+      color: var(--text-gray);
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 0.9rem;
+      transition: 0.3s;
+    }
+    .nav-links a:hover {
+      color: var(--neon-green);
+    }
+    /* Buttons */
+    .btn {
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+      font-size: 0.95rem;
+    }
+    .btn-primary {
+      background: var(--neon-green);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-glow);
+      border: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px var(--neon-green);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-white);
+      border: 1px solid var(--border-glass);
+      margin-left: 15px;
+    }
+    .btn-secondary:hover {
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+    }
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 60px;
+      position: relative;
+      background: radial-gradient(circle at center, rgba(57, 255, 20, 0.08) 0%, rgba(8, 8, 10, 1) 70%);
+    }
+    .hero-logo {
+      max-width: 320px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 20px var(--neon-glow));
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #fff 0%, #a1a1a6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .grid-bg {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background-image: 
+        linear-gradient(to right, rgba(57, 255, 20, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
+      background-size: 50px 50px;
+      transform: perspective(500px) rotateX(60deg);
+      z-index: -1;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove {
+      0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+      100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+    }
+    /* Section Layout */
+    section {
+      padding: 100px 8%;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      color: var(--text-white);
+      text-align: center;
+    }
+    .section-subtitle {
+      color: var(--text-gray);
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 1.05rem;
+    }
+    /* Grid Layouts */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    /* Interactive Flow */
+    .flow-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      align-items: center;
+    }
+    .flow-step {
+      padding: 20px;
+      text-align: center;
+      min-width: 180px;
+      flex: 1;
+    }
+    .flow-arrow {
+      color: var(--neon-green);
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    /* Product Card */
+    .product-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding: 40px;
+      align-items: center;
+    }
+    .price-tag {
+      font-size: 3rem;
+      color: var(--neon-green);
+      font-family: 'Orbitron', sans-serif;
+      margin: 15px 0;
+    }
+    /* Form & Calculator */
+    .calc-box, .booking-form {
+      padding: 40px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-gray);
+      font-size: 0.9rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-glass);
+      border-radius: 10px;
+      color: var(--text-white);
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 10px var(--neon-glow);
+    }
+    .result-display {
+      background: rgba(57, 255, 20, 0.05);
+      border-left: 4px solid var(--neon-green);
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 25px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+    .result-value {
+      font-weight: bold;
+      color: var(--neon-green);
+      font-family: 'Orbitron', sans-serif;
+    }
+    /* Tag Cloud / Badges */
+    .badge-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    .badge {
+      padding: 12px 25px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-glass);
+      border-radius: 30px;
+      font-size: 1.1rem;
+    }
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-glass);
+      padding: 60px 8% 30px;
+      text-align: center;
+      background: #040405;
+    }
+    .footer-logo {
+      height: 50px;
+      margin-bottom: 20px;
+    }
+    .credits {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-gray);
+      font-size: 0.85rem;
+    }
+    #successMsg {
+      display: none;
+      color: var(--neon-green);
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .product-card { grid-template-columns: 1fr; }
+      .flow-arrow { transform: rotate(90deg); margin: 10px 0; }
+      .flow-container { flex-direction: column; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <img src="assets/logo.svg" alt="WALKWATT Logo" class="logo-img">
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#how-it-works">Technology</a>
+      <a href="#core-unit">Core Unit</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#book" class="btn btn-primary" style="padding: 8px 20px; color:#000;">Book Now</a>
+    </div>
+  </nav>
+  <!-- 1. Hero Section -->
+  <div class="hero">
+    <div class="grid-bg"></div>
+    <img src="assets/logo.svg" alt="WALKWATT" class="hero-logo">
+    <h1>Every Step Creates Energy</h1>
+    <p style="color: var(--text-gray); max-width: 600px; margin-bottom: 30px; font-size: 1.1rem;">
+      Next-generation kinetic floor tiles transforming everyday foot traffic into clean, renewable power for smart infrastructure.
+    </p>
+    <div>
+      <a href="#book" class="btn btn-primary">Book Now</a>
+      <a href="#how-it-works" class="btn btn-secondary">Explore Technology</a>
+    </div>
+  </div>
+  <!-- 2. About Section -->
+  <section id="about">
+    <h2 class="section-title">Kinetic Innovation</h2>
+    <p class="section-subtitle">Innovation Idea by Mukul Bhoi</p>
+    <div class="glass glass-glow" style="padding: 40px; text-align: center; max-width: 800px; margin: 0 auto;">
+      <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-white);">
+        <strong>WALKWATT</strong> revolutionizes renewable energy harvesting by capturing the micro-vibrations and kinetic energy generated by human footsteps. Installed in high-footfall environments, WalkWatt seamlessly converts mechanical movement into usable, stored electricity—powering lights, sensors, and micro-grids silently and continuously.
+      </p>
+    </div>
+  </section>
+  <!-- 3. The Problem -->
+  <section id="problem">
+    <h2 class="section-title">The Wasted Energy Opportunity</h2>
+    <p class="section-subtitle">Millions of daily footsteps lose power to the ground. We capture it.</p>
+    <div class="grid-3">
+      <div class="glass glass-glow" style="padding: 30px;">
+        <h3 style="color: var(--neon-green); margin-bottom: 10px;">High Footfall</h3>
+        <p style="color: var(--text-gray);">Airports, railway stations, malls, and schools see hundreds of thousands of people daily walking over inert flooring.</p>
+      </div>
+      <div class="glass glass-glow" style="padding: 30px;">
+        <h3 style="color: var(--neon-green); margin-bottom: 10px;">Unused Potential</h3>
+        <p style="color: var(--text-gray);">Every single step exerts pressure that dissipates into the environment as heat and sound. It is a completely untapped clean energy grid.</p>
+      </div>
+      <div class="glass glass-glow" style="padding: 30px;">
+        <h3 style="color: var(--neon-green); margin-bottom: 10px;">Smart Solution</h3>
+        <p style="color: var(--text-gray);">WalkWatt bridges urban foot traffic with micro-power generation, turning everyday movement into off-grid sustainability.</p>
+      </div>
+    </div>
+  </section>
+  <!-- 4. How It Works -->
+  <section id="how-it-works">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-subtitle">A seamless 5-stage kinetic conversion loop</p>
+    <div class="glass glass-glow" style="padding: 40px;">
+      <div class="flow-container">
+        <div class="flow-step">
+          <h4 style="margin-bottom: 5px;">1. Footstep</h4>
+          <p style="color: var(--text-gray); font-size: 0.85rem;">Downward mechanical force applied</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">
+          <h4 style="margin-bottom: 5px;">2. Sensor</h4>
+          <p style="color: var(--text-gray); font-size: 0.85rem;">Precision pressure activation</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">
+          <h4 style="margin-bottom: 5px; color: var(--neon-green);">3. Core Unit</h4>
+          <p style="color: var(--text-gray); font-size: 0.85rem;">Kinetic generator converts movement</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">
+          <h4 style="margin-bottom: 5px;">4. Battery</h4>
+          <p style="color: var(--text-gray); font-size: 0.85rem;">Energy stored in powerbank grid</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">
+          <h4 style="margin-bottom: 5px;">5. Output</h4>
+          <p style="color: var(--text-gray); font-size: 0.85rem;">Powers LED lights & facilities</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- 5. WalkWatt Core Unit -->
+  <section id="core-unit">
+    <h2 class="section-title">The WalkWatt Core Unit</h2>
+    <p class="section-subtitle">Engineered for durability, modularity, and high energy yield.</p>
+    <div class="glass glass-glow product-card">
+      <div>
+        <h3 style="font-size: 1.8rem;">Standard Module</h3>
+        <div class="price-tag">₹1,200 <span style="font-size: 1rem; color: var(--text-gray);">/ unit</span></div>
+        <ul style="list-style: none; color: var(--text-gray); line-height: 2;">
+          <li>⚡ <strong>Coverage:</strong> 80 sq. ft. per unit</li>
+          <li>🧩 <strong>Design:</strong> Ultra-modular grid integration</li>
+          <li>🛠️ <strong>Installation:</strong> Rapid plug-and-play assembly</li>
+          <li>🛡️ <strong>Maintenance:</strong> Weather-sealed, low-upkeep architecture</li>
+        </ul>
+      </div>
+      <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-glass); border-radius: 15px; height: 250px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+        <div>
+          <span style="font-size: 3rem; display: block; margin-bottom: 10px;">⚡</span>
+          <p style="color: var(--neon-green); font-family: 'Orbitron'; font-size: 0.9rem;">WALKWATT HARDWARE ARCHITECTURE</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- 6. Applications -->
+  <section>
+    <h2 class="section-title">Target Applications</h2>
+    <p class="section-subtitle">Designed for high-density public and commercial infrastructure.</p>
+    <div class="badge-cloud">
+      <div class="badge">🚆 Railways</div>
+      <div class="badge">🚇 Metro Stations</div>
+      <div class="badge">✈️ Airports</div>
+      <div class="badge">🛍️ Shopping Malls</div>
+      <div class="badge">🏫 Schools & Universities</div>
+      <div class="badge">🏙️ Smart Cities</div>
+    </div>
+  </section>
+  <!-- 7. Live Area Calculator -->
+  <section id="calculator">
+    <h2 class="section-title">Live Project Estimator</h2>
+    <p class="section-subtitle">Calculate the modules required for your floor space instantly.</p>
+    <div class="glass glass-glow calc-box" style="max-width: 600px; margin: 0 auto;">
+      <div class="form-group">
+        <label for="calcArea">Enter Surface Area (in sq. ft.)</label>
+        <input type="number" id="calcArea" placeholder="e.g. 800" oninput="calculateProject()">
+      </div>
+      <div class="result-display">
+        <div class="result-item">
+          <span>Required Core Units:</span>
+          <span class="result-value" id="resUnits">0</span>
+        </div>
+        <div class="result-item" style="margin-bottom: 0;">
+          <span>Estimated Project Cost:</span>
+          <span class="result-value" id="resCost">₹0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- 8. Book Your WalkWatt -->
+  <section id="book">
+    <h2 class="section-title">Book Your WalkWatt System</h2>
+    <p class="section-subtitle">Reserve a system tailored to your space requirements.</p>
+    <div class="glass glass-glow booking-form" style="max-width: 700px; margin: 0 auto;">
+      <form id="walkWattForm" onsubmit="handleBooking(event)">
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" required placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label>Organization</label>
+            <input type="text" required placeholder="Company / Institution Name">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" required placeholder="john@example.com">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" required placeholder="+91 98765 43210">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" required placeholder="City Name">
+          </div>
+          <div class="form-group">
+            <label>Required Area (sq. ft.)</label>
+            <input type="number" id="formArea" required placeholder="e.g. 400" oninput="syncBookingUnits()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Estimated Core Units (Auto-Calculated)</label>
+          <input type="text" id="formUnits" readonly style="background: rgba(255,255,255,0.05); color: var(--neon-green);" placeholder="0 Units">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea rows="4" placeholder="Tell us about your installation requirements..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Booking Request</button>
+        <p id="successMsg">Thank you! Your WalkWatt booking request has been received.</p>
+      </form>
+    </div>
+  </section>
+  <!-- 9. Why Choose WalkWatt -->
+  <section>
+    <h2 class="section-title">Why Choose WalkWatt</h2>
+    <p class="section-subtitle">Engineered for the cities of tomorrow.</p>
+    <div class="grid-3">
+      <div class="glass glass-glow" style="padding: 25px;">
+        <h3 style="color: var(--neon-green); margin-bottom: 8px;">Affordable</h3>
+        <p style="color: var(--text-gray); font-size: 0.95rem;">Designed to deliver high energy ROI at accessible cost points.</p>
+      </div>
+      <div class="glass glass-glow" style="padding: 25px;">
+        <h3 style="color: var(--neon-green); margin-bottom: 8px;">Sustainable</h3>
+        <p style="color: var(--text-gray); font-size: 0.95rem;">100% clean, off-grid power generated purely by natural human movement.</p>
+      </div>
+      <div class="glass glass-glow" style="padding: 25px;">
+        <h3 style="color: var(--neon-green); margin-bottom: 8px;">Modular</h3>
+        <p style="color: var(--text-gray); font-size: 0.95rem;">Scalable architecture easily expands from small walkways to entire plazas.</p>
+      </div>
+      <div class="glass glass-glow" style="padding: 25px;">
+        <h3 style="color: var(--neon-green); margin-bottom: 8px;">Smart City Ready</h3>
+        <p style="color: var(--text-gray); font-size: 0.95rem;">Seamlessly integrates with modern IoT urban infrastructure grid systems.</p>
+      </div>
+      <div class="glass glass-glow" style="padding: 25px; grid-column: span 1;">
+        <h3 style="color: var(--neon-green); margin-bottom: 8px;">Energy Efficient</h3>
+        <p style="color: var(--text-gray); font-size: 0.95rem;">Optimized internal storage minimal energy loss technology.</p>
+      </div>
+    </div>
+  </section>
+  <!-- 10. Contact & Footer -->
+  <footer>
+    <img src="assets/logo.svg" alt="WALKWATT Logo" class="footer-logo"><br>
+    <p style="color: var(--text-white); font-weight: 600; margin-bottom: 5px;">Innovation Idea by Mukul Bhoi</p>
+    <p style="color: var(--text-gray); font-size: 0.95rem;">Developed & Presented by Mukul Bhoi & Team</p>
+    
+    <div class="credits">
+      <p>Students of Sanskar City International School</p>
+    </div>
+  </footer>
+  <script>
+    // 7. Live Calculator Script
+    function calculateProject() {
+      const area = parseFloat(document.getElementById('calcArea').value) || 0;
+      const units = Math.ceil(area / 80);
+      const cost = units * 1200;
+      document.getElementById('resUnits').innerText = units;
+      document.getElementById('resCost').innerText = '₹' + cost.toLocaleString('en-IN');
+    }
+    // Sync Area input in Booking form to auto-calculate Units
+    function syncBookingUnits() {
+      const area = parseFloat(document.getElementById('formArea').value) || 0;
+      const units = Math.ceil(area / 80);
+      document.getElementById('formUnits').value = units > 0 ? units + ' Core Unit(s)' : '';
+    }
+    // 8. Form Handling Script
+    function handleBooking(event) {
+      event.preventDefault();
+      document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('walkWattForm').reset();
+    }
+  </script>
+</body>
+</html>
+
