@@ -330,9 +330,91 @@
       .flow-container { flex-direction: column; }
       .nav-links { display: none; }
     }
+
+    /* ===== Polish layer: reveal, hero entrance, hover, accents ===== */
+    #scrollBar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0;
+      background: linear-gradient(90deg, #39ff14, #a6ff8f);
+      box-shadow: 0 0 12px var(--neon-glow);
+      z-index: 2000; transition: width .1s linear;
+    }
+    [id] { scroll-margin-top: 90px; }
+
+    nav { transition: padding .3s ease, background .3s ease, box-shadow .3s ease; }
+    nav.scrolled {
+      padding: 6px 14px 6px 18px;
+      background: rgba(10, 12, 16, 0.92);
+      box-shadow: 0 12px 34px rgba(0,0,0,0.6);
+    }
+    .logo-img { transition: height .3s ease; }
+    nav.scrolled .logo-img { height: 34px; }
+
+    .section-title { position: relative; padding-bottom: 18px; }
+    .section-title::after {
+      content: ''; position: absolute; left: 50%; bottom: 0;
+      transform: translateX(-50%); width: 64px; height: 3px; border-radius: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+      box-shadow: 0 0 12px var(--neon-glow);
+    }
+
+    .glass-glow { transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+    .glass-glow:hover { transform: translateY(-6px); }
+
+    .flow-step {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+    .flow-step:hover { transform: translateY(-6px); border-color: var(--neon-green); box-shadow: 0 0 22px var(--neon-glow); }
+
+    .badge { transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease, color .3s ease; cursor: default; }
+    .badge:hover { transform: translateY(-4px) scale(1.04); border-color: var(--neon-green); box-shadow: 0 0 18px var(--neon-glow); color: var(--neon-green); }
+
+    .btn { position: relative; overflow: hidden; }
+    .btn-primary::after {
+      content: ''; position: absolute; top: 0; left: -130%; width: 60%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
+      transform: skewX(-20deg); transition: left .6s ease;
+    }
+    .btn-primary:hover::after { left: 140%; }
+
+    /* Animated energy visual in Core Unit box */
+    .energy-visual { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .energy-bolt { font-size: 3rem; filter: drop-shadow(0 0 14px var(--neon-glow)); }
+    .energy-bars { display: flex; align-items: flex-end; gap: 6px; height: 70px; }
+    .energy-bars span {
+      width: 10px; height: 16px; border-radius: 4px 4px 0 0;
+      background: linear-gradient(180deg, var(--neon-green), rgba(57,255,20,.25));
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+      .reveal.in { opacity: 1; transform: none; }
+
+      .hero-logo, .hero h1, .hero > p, .hero-cta { opacity: 0; }
+      .hero-logo { animation: heroIn .9s ease .15s forwards, floatLogo 6s ease-in-out 1.2s infinite; }
+      .hero h1 { animation: heroIn .9s ease .35s forwards; }
+      .hero > p { animation: heroIn .9s ease .55s forwards; }
+      .hero-cta { animation: heroIn .9s ease .75s forwards; }
+
+      .energy-bolt { animation: boltPulse 2s ease-in-out infinite; }
+      .energy-bars span { animation: barGrow 1.4s ease-in-out infinite; }
+      .energy-bars span:nth-child(2){ animation-delay:.15s } .energy-bars span:nth-child(3){ animation-delay:.3s }
+      .energy-bars span:nth-child(4){ animation-delay:.45s } .energy-bars span:nth-child(5){ animation-delay:.6s }
+      .energy-bars span:nth-child(6){ animation-delay:.75s } .energy-bars span:nth-child(7){ animation-delay:.9s }
+      .flow-arrow { animation: arrowPulse 1.8s ease-in-out infinite; }
+
+      @keyframes heroIn { from { opacity:0; transform: translateY(22px); } to { opacity:1; transform: translateY(0); } }
+      @keyframes floatLogo { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-12px); } }
+      @keyframes arrowPulse { 0%,100%{ opacity:.35; } 50%{ opacity:1; } }
+      @keyframes barGrow { 0%,100%{ height:16px; opacity:.5; } 50%{ height:64px; opacity:1; } }
+      @keyframes boltPulse { 0%,100%{ transform: scale(1); opacity:.85; } 50%{ transform: scale(1.12); opacity:1; } }
+    }
   </style>
 </head>
 <body>
+  <div id="scrollBar"></div>
   <!-- Navigation -->
   <nav>
     <img src="assets/logo.png" alt="WALKWATT Logo" class="logo-img">
@@ -437,9 +519,10 @@
         </ul>
       </div>
       <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-glass); border-radius: 15px; height: 250px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px;">
-        <div>
-          <span style="font-size: 3rem; display: block; margin-bottom: 10px;">⚡</span>
-          <p style="color: var(--neon-green); font-family: 'Orbitron'; font-size: 0.9rem;">WALKWATT HARDWARE ARCHITECTURE</p>
+        <div class="energy-visual">
+          <span class="energy-bolt">⚡</span>
+          <div class="energy-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <p style="color: var(--neon-green); font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 1px;">WALKWATT HARDWARE ARCHITECTURE</p>
         </div>
       </div>
     </div>
@@ -565,13 +648,28 @@
     </div>
   </footer>
   <script>
-    // 7. Live Calculator Script
+    // ---- Animated count-up helper ----
+    function animateValue(el, start, end, duration, formatter) {
+      const t0 = performance.now();
+      function frame(now) {
+        const p = Math.min((now - t0) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(start + (end - start) * eased);
+        el.innerText = formatter ? formatter(val) : val;
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // ---- Live Calculator with count-up ----
+    let lastUnits = 0, lastCost = 0;
     function calculateProject() {
       const area = parseFloat(document.getElementById('calcArea').value) || 0;
       const units = Math.ceil(area / 80);
       const cost = units * 1200;
-      document.getElementById('resUnits').innerText = units;
-      document.getElementById('resCost').innerText = '₹' + cost.toLocaleString('en-IN');
+      animateValue(document.getElementById('resUnits'), lastUnits, units, 450);
+      animateValue(document.getElementById('resCost'), lastCost, cost, 450, v => '₹' + v.toLocaleString('en-IN'));
+      lastUnits = units; lastCost = cost;
     }
     // Sync Area input in Booking form to auto-calculate Units
     function syncBookingUnits() {
@@ -579,12 +677,35 @@
       const units = Math.ceil(area / 80);
       document.getElementById('formUnits').value = units > 0 ? units + ' Core Unit(s)' : '';
     }
-    // 8. Form Handling Script
+    // Form Handling Script
     function handleBooking(event) {
       event.preventDefault();
       document.getElementById('successMsg').style.display = 'block';
       document.getElementById('walkWattForm').reset();
     }
+
+    // ---- Scroll progress bar + shrinking nav ----
+    const scrollBar = document.getElementById('scrollBar');
+    const navEl = document.querySelector('nav');
+    function onScroll() {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      scrollBar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+      navEl.classList.toggle('scrolled', window.scrollY > 30);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ---- Staggered scroll reveal ----
+    const revealEls = document.querySelectorAll('.section-title, .section-subtitle, .glass, .flow-step, .badge');
+    revealEls.forEach(el => {
+      el.classList.add('reveal');
+      const idx = Array.from(el.parentElement.children).indexOf(el);
+      el.style.transitionDelay = Math.min(idx, 6) * 70 + 'ms';
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
   </script>
 </body>
 </html>
